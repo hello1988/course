@@ -128,6 +128,7 @@ CHANNEL_TOKEN = ''
 IS_HEROKU = os.environ.get('IS_HEROKU', False)
 if IS_HEROKU:
     DEBUG = False
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
     import dj_database_url
     db_from_env = dj_database_url.config(conn_max_age=500)
@@ -136,3 +137,8 @@ if IS_HEROKU:
     CHANNEL_ID = os.environ.get('CHANNEL_ID', None)
     CHANNEL_SECRET = os.environ.get('CHANNEL_SECRET', None)
     CHANNEL_TOKEN = os.environ.get('CHANNEL_TOKEN', None)
+
+    STATICFILES_DIRS = (
+        os.path.join(PROJECT_ROOT, 'static'),
+    )
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
