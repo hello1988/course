@@ -121,10 +121,18 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
+CHANNEL_ID = ''
+CHANNEL_SECRET = ''
+CHANNEL_TOKEN = ''
+
 IS_HEROKU = os.environ.get('IS_HEROKU', False)
 if IS_HEROKU:
     DEBUG = False
-    
+
     import dj_database_url
     db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
+
+    CHANNEL_ID = os.environ.get('CHANNEL_ID', None)
+    CHANNEL_SECRET = os.environ.get('CHANNEL_SECRET', None)
+    CHANNEL_TOKEN = os.environ.get('CHANNEL_TOKEN', None)
