@@ -125,6 +125,7 @@ STATIC_URL = '/static/'
 CHANNEL_ID = ''
 CHANNEL_SECRET = ''
 CHANNEL_TOKEN = ''
+LIFF_URL = ''
 
 IS_HEROKU = os.environ.get('IS_HEROKU', False)
 if IS_HEROKU:
@@ -143,3 +144,5 @@ if IS_HEROKU:
         os.path.join(PROJECT_ROOT, 'static'),
     )
     STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+    LIFF_URL = os.environ.get('LIFF_URL', None)

@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from bot.urls import urlpatterns as bot_url
+from heal.urls import urlpatterns as heal_url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^bot/', include(bot_url)),
+    url(r'^heal/', include(heal_url)),
 ]

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Registered</title>
+    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+    <script>
+        line_id = '';
+        function close_liff() {
+            console.log('close_liff');
+            liff.closeWindow();
+        }
+
+        function init(){
+            liff.init(function (data) {
+                console.log(data.context.userId);
+
+                liff.getProfile().then(function (profile) {
+                    userName = profile.displayName;
+                    line_id = profile.userId;
+                })
+                .catch(function (error) {
+                    window.alert("Error getting profile: " + error);
+                });
+
+            });
+        }
+        $(document).ready(
+        function()
+        {
+            $("#summit_btn").click(summit_member_info)
+        });
+        
+        function summit_member_info(e)
+        {
+            data = {
+                'line_id' : line_id,
+                'name' : $("#member_name").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: '/heal/api/member/registered/',
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                dataType: 'json'
+            });
+            
+            liff.closeWindow();
+        }
+    </script>
+        
+</style>
+</head>
+<body>
+<script>
+    init();
+</script>
+<div style="margin-top:10%;margin-left:10%;width:80%">
+    <div style="font-size:5rem;width:100%">
+        <p>請輸入姓名</p>
+        <input type="text" style="background-color: #88f590;width: 100%;" name="name" id="member_name" value="" >
+    </div>
+    </br>
+    </br>
+    <div style="font-size:5rem;width:50%">
+        <button type="button" id="summit_btn">送出</button>
+    </div>
+    
+    
+</div>
+
+</body>
+</html>

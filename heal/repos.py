@@ -9,7 +9,7 @@ class MemberRepo(object):
         if created:
             profile = line_bot_api.get_profile(line_id)
             member.name = profile.display_name
-            member.display_name = profile.display_name
+            member.display_name = ''
             member.save()
 
         return member
