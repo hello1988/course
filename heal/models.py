@@ -1,7 +1,6 @@
 from pytz import timezone
 from datetime import datetime
 from django.db import models
-from dateutil.parser import parser
 
 def today_format():
     tz = timezone('Asia/Taipei')
