@@ -11,6 +11,8 @@ from linebot.models import (
 )
 from .utils import push_templates
 
+from heal.api import process_text_message, process_postback
+
 handler = WebhookHandler(settings.CHANNEL_SECRET)
 
 class LineBotViewSet(ViewSet):
@@ -52,9 +54,12 @@ class LineBotViewSet(ViewSet):
         reply_token = event.reply_token
         text = event.message.text
 
+        process_text_message(line_id, text)
 
     @handler.add(PostbackEvent)
     def handle_postback(event, *args, **kwargs):
-        # self = event
-        print(args)
-        print(kwargs)
+        line_id = event.source.user_id
+        reply_token = event.reply_token
+        postback_text = event.postback.data
+
+        process_postback(line_id, postback_text)

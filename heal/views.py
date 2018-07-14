@@ -20,6 +20,7 @@ class MemberViewSet(viewsets.ViewSet):
 
         elif request.method == 'POST':
             data = dict(request.data)
+            # print(data)
             line_id = data.get('line_id')
             name = data.get('name')
 

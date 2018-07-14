@@ -18,8 +18,8 @@ class CourseScheduleAdmin(admin.ModelAdmin):
     list_filter = ('course',)
 
 class CourseApplyAdmin(admin.ModelAdmin):
-    list_display = ('id', 'member', 'course',)
-    list_filter = ('course',)
+    list_display = ('id', 'member', 'schedule',)
+    list_filter = ('schedule',)
     search_fields = ('member__name', 'member__display_name',)
 
 admin.site.register(Member, MemberAdmin)

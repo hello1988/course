@@ -1,6 +1,7 @@
 from pytz import timezone
 from datetime import datetime
 from django.db import models
+from dateutil.parser import parser
 
 def today_format():
     tz = timezone('Asia/Taipei')
@@ -28,6 +29,7 @@ class Course(Basis):
     name = models.CharField(max_length=32, verbose_name='課程名稱')
     desc = models.CharField(max_length=60, verbose_name='課程簡介')
     description = models.TextField(default='', verbose_name='課程說明')
+    image_url = models.URLField(default=None, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -35,11 +37,20 @@ class Course(Basis):
 class CourseSchedule(Basis):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     start_date = models.CharField(max_length=32, default=today_format, db_index=True, verbose_name='開課日期')
+    start_time = models.PositiveIntegerField(default=0, editable=False, db_index=True)
 
     def __str__(self):
         return '{} - {}'.format( self.course.name, self.start_date )
 
+    def save(self, *args, **kwargs):
+        tz = timezone('Asia/Taipei')
+        dt = datetime.strptime(self.start_date, '%Y-%m-%d')
+        dt.replace(tzinfo=tz)
+        self.start_time = dt.timestamp()
+
+        super(CourseSchedule, self).save(*args, **kwargs)
+
 class CourseApply(Basis):
-    course = models.ForeignKey(CourseSchedule, on_delete=models.CASCADE)
+    schedule = models.ForeignKey(CourseSchedule, on_delete=models.CASCADE)
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
 
