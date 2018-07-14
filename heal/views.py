@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets, permissions, status
+from rest_framework.authentication import BasicAuthentication
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from bot.utils import push_templates
 
-from .services import member_service
+from .services import member_service, course_schedule_service
 
 from linebot.models import TextSendMessage
 # Create your views here.
@@ -30,3 +31,15 @@ class MemberViewSet(viewsets.ViewSet):
             push_templates(line_id, TextSendMessage(text=text))
 
         return HttpResponse()
+
+
+class CourseApplyViewSet(viewsets.ViewSet):
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @action(methods=['get'], detail=False, url_path='export')
+    def export(self, request):
+        schedule_id = request.GET.get('id', None)
+        
+        return Response()
+
